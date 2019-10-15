@@ -1,7 +1,4 @@
-from tkinter import *
-#Creer une premiere fenetre
-window = Tk()
-
-#Afficher
-window.mainloop()
+###IMPORT###
+import pygame as pg
+import random as rd
 
