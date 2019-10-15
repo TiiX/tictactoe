@@ -1,5 +1,3 @@
-print("Hey\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nHey !")
-
 def TableauVide():
     print("*---------*---------*---------*\n"
           "|         |         |         |\n"
