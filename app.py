@@ -1,38 +1,41 @@
-###IMPORT###
+###Import###
 import pygame as pg
 import random as rd
 
-###INIT###
+###Init###
 pg.init()
 
 
-###Vars###
-table = [[[],[],[]],
-         [[],[],[]],
-         [[],[],[]]]
+###Variables###
+_continue = True
+
+table = [["","",""],
+         ["","",""],
+         ["","",""]]
 
 IsPlayer1 = True
 actual_sign = ""
 
-l =
-fenetre = pg.display.set_mode((l,L))
+l = 1920
+L = 1080
+
+window = pg.display.set_mode((l,L), "FULLSCREEN")
+
+points = [0,0]
 
 
 
-###Defs / Fonctions###
+###Definitions###
 
 
 
+###Start of the project###
+
+while _continue or points[0] != 3 or points[1] != 3:
+
+    pass
 
 
 
-
-###Debut du programme###
-
-
-
-
-
-
-
-
+#Quit the game
+pg.quit()
