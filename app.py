@@ -38,6 +38,12 @@ def WinnerTest():
 
     return winner, _continue
 
+def VoidTable():
+    pass
+
+def PrintSymbol(symbol = "C"):
+    pass
+
 ###Start of the project###
 while _continue:
 
