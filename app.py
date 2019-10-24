@@ -25,6 +25,14 @@ window = pg.display.set_mode((l,L))
 points = [0,0]
 winner = ""
 
+###Images###
+ImgPlaceVoid = pg.image.load("#")
+ImgPlaceX = pg.image.load("#").convert_alpha()
+ImgPlaceO = pg.image.load("#").convert_alpha()
+ImgTable = pg.image.load("#")
+
+###Font###
+#A Faire
 
 ###Definitions###
 def WinnerTest():
