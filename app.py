@@ -1,13 +1,12 @@
-###Import###
+### Import ###
 import pygame as pg
 from pygame.locals import *
 import random as rd
 
-###Init###
+### Init ###
 pg.init()
 
-
-###Variables###
+### Variables ###
 _continue = True
 
 table = [["","",""],
@@ -25,16 +24,17 @@ window = pg.display.set_mode((l,L))
 points = [0,0]
 winner = ""
 
-###Images###
+### Images ###
 ImgPlaceVoid = pg.image.load("#")
 ImgPlaceX = pg.image.load("#").convert_alpha()
 ImgPlaceO = pg.image.load("#").convert_alpha()
 ImgTable = pg.image.load("#")
 
-###Font###
-#A Faire
+### Fonts ###
+# A Faire
 
-###Definitions###
+### Definitions###
+# Game
 def WinnerTest():
     if points[0] == 3:
         winner = "P1"
@@ -49,16 +49,27 @@ def WinnerTest():
 def VoidTable():
     pass
 
-def PrintSymbol(symbol = "C"):
+def PlaceSymbol(symbol = "C"):
     pass
 
-###Start of the project###
+# Menu
+def PrintMenu():
+    pass
+
+def PrintSettings():
+    pass
+
+# Mouse's detection
+def Mouse():
+    pass
+
+### Start of the project ###
 while _continue:
 
-    #Winner verification
+    # Winner verification
     WinnerTest()
 
-    # Events gestion
+    # Events
     for event in pg.event.get():
         if event.type == QUIT:
             _continue = False
@@ -68,5 +79,5 @@ while _continue:
             if event.key in [K_ESCAPE]:
                 _continue = False
 
-#Quit the game
+# Quit the game
 pg.quit()
