@@ -9,25 +9,28 @@ pg.init()
 ### Variables ###
 _continue = True
 
-table = [["","",""],
+_table = [["","",""],
          ["","",""],
          ["","",""]]
 
-IsPlayer1 = True
-actual_sign = ""
+_isPlayer1 = True
+_actual_sign = ""
 
-l = 1920
-L = 1080
+_l = 1920
+_L = 1080
 
-window = pg.display.set_mode((l,L))
+window = pg.display.set_mode((_l,_L))
 
-points = [0,0]
-winner = ""
+_points = [0,0]
+_winner = ""
+
+# Mouse Init
+_x, _y, _B1, _B2, _B3 = 0, 0, 0, 0, 0
 
 ### Images ###
-ImgPlaceVoid = pg.image.load("#")
-ImgPlaceX = pg.image.load("#").convert_alpha()
-ImgPlaceO = pg.image.load("#").convert_alpha()
+ImgPlaceVoid = pg.image.load(".\Images\Void.png")
+ImgPlaceX = pg.image.load(".\Images\Cross.png").convert_alpha()
+ImgPlaceO = pg.image.load(".\Images\Circle.png").convert_alpha()
 ImgTable = pg.image.load("#")
 
 ### Fonts ###
@@ -36,15 +39,15 @@ ImgTable = pg.image.load("#")
 ### Definitions###
 # Game
 def WinnerTest():
-    if points[0] == 3:
-        winner = "P1"
+    if _points[0] == 3:
+        _winner = "P1"
         _continue = False
 
-    elif points[1] == 3:
-        winner = "P2"
+    elif _points[1] == 3:
+        _winner = "P2"
         _continue = False
 
-    return winner, _continue
+    return _winner, _continue
 
 def VoidTable():
     pass
@@ -61,7 +64,14 @@ def PrintSettings():
 
 # Mouse's detection
 def Mouse():
-    pass
+    # Position
+    _x, _y = pg.mouse.get_pos()
+
+    # Clicks
+    _B1, _B2, _B3 = pg.mouse.get_pressed()
+
+    return _x, _y, _B1, _B2, _B3
+
 
 ### Start of the project ###
 while _continue:
