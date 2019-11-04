@@ -13,13 +13,17 @@ _table = [["","",""],
          ["","",""],
          ["","",""]]
 
+_coords = [[(0,0),(357.5,0),(707.5,0)],
+            [(0,357.5),(357.5,357.5),(707.5,357.5)],
+            [(0,707.5),(357.5,707.5),(707.5,707.5)]]
+
 _isPlayer1 = True
 _actual_sign = ""
 
 _l = 1920
 _L = 1080
 
-window = pg.display.set_mode((_l,_L))
+window = pg.display.set_mode((_l,_L), FULLSCREEN)
 
 _points = [0,0]
 _winner = ""
@@ -31,7 +35,6 @@ _x, _y, _B1, _B2, _B3 = 0, 0, 0, 0, 0
 ImgPlaceVoid = pg.image.load(".\Images\Void.png")
 ImgPlaceX = pg.image.load(".\Images\Cross.png").convert_alpha()
 ImgPlaceO = pg.image.load(".\Images\Circle.png").convert_alpha()
-ImgTable = pg.image.load("#")
 
 ### Fonts ###
 # A Faire
@@ -39,6 +42,9 @@ ImgTable = pg.image.load("#")
 ### Definitions###
 # Game
 def WinnerTest():
+    # Globals
+    global _winner, _continue
+
     if _points[0] == 3:
         _winner = "P1"
         _continue = False
@@ -47,10 +53,22 @@ def WinnerTest():
         _winner = "P2"
         _continue = False
 
-    return _winner, _continue
 
 def VoidTable():
-    pass
+    # Background
+    # Returning the table w\ symbol in it
+    _table = [["","",""],
+            ["","",""],
+            ["","",""]]
+    return _table
+
+    # Graphic
+    # Flip w\ symbols
+    for place in _coords:
+        for x, y in place:
+           window.blit(ImgPlaceVoid,(x,y))
+            
+    pg.display.flip()
 
 def PlaceSymbol(symbol = "C"):
     pass
@@ -78,6 +96,9 @@ while _continue:
 
     # Winner verification
     WinnerTest()
+
+    # Void test
+    VoidTable()
 
     # Events
     for event in pg.event.get():
