@@ -13,14 +13,18 @@ _table = [["","",""],
          ["","",""],
          ["","",""]]
 
-_coords = [[(0,0),(357.5,0),(707.5,0)],
-            [(0,357.5),(357.5,357.5),(707.5,357.5)],
-            [(0,707.5),(357.5,707.5),(707.5,707.5)]]
+_coords = [[(15,15),(365,15),(715,15)],
+            [(15,365),(365,365),(715,365)],
+            [(15,715),(365,715),(715,715)]]
+
+_coords_test = [[(,),(,),(,)],
+                [(,),(,),(,)],
+                [(,),(,),(,)]]
 
 _isPlayer1 = True
 _actual_sign = ""
 
-_l = 1920
+_l = 1080
 _L = 1080
 
 window = pg.display.set_mode((_l,_L), FULLSCREEN)
@@ -55,19 +59,21 @@ def WinnerTest():
 
 
 def VoidTable():
+    global _coords, _table
+
     # Background
     # Returning the table w\ symbol in it
     _table = [["","",""],
             ["","",""],
             ["","",""]]
-    return _table
 
     # Graphic
     # Flip w\ symbols
     for place in _coords:
         for x, y in place:
-           window.blit(ImgPlaceVoid,(x,y))
-            
+            window.blit(ImgPlaceVoid,(x,y))
+            print(x,y)
+
     pg.display.flip()
 
 def PlaceSymbol(symbol = "C"):
@@ -108,15 +114,12 @@ def Mouse():
 
     return _x, _y, _B1, _B2, _B3
 
-
+VoidTable()
 ### Start of the project ###
 while _continue:
 
     # Winner verification
     WinnerTest()
-
-    # Void test
-    VoidTable()
 
     # Events
     for event in pg.event.get():
