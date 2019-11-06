@@ -71,7 +71,25 @@ def VoidTable():
     pg.display.flip()
 
 def PlaceSymbol(symbol = "C"):
-    pass
+    # Background
+    #######A FAIRE#######
+
+    # Graphic
+    # Coords of the img placement
+    for place in _coords:
+        for x, y in place:
+            if _x <= x:
+                if _y <= y:
+                    img_coords = (x, y)
+
+    # Choice of the symbol bcs of the parameter
+    if symbol == "C":
+        img = ImgPlaceX
+    else:
+        img = ImgPlaceO
+
+    # Placement of the symbol
+    window.blit(img, img_coords)
 
 # Menu
 def PrintMenu():
