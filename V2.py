@@ -1,164 +1,203 @@
-
-#Start = 16:49
-### Import + Init ###
+# Jeu fait par Arthur Nordmann (Tous droits reserves)
+### IMPORT ###
 import pygame as pg
 from pygame.locals import *
 pg.init()
 
-### Vars ###
 
-_table = [" ", " ", " ",
-          " ", " ", " ",
-          " ", " ", " "]
 
-_continue = True
-_verif_cases = ((0,1,2),(3,4,5),(6,7,8),(0,3,6),(1,4,7),(2,5,8),(0,4,8),(3,4,6))
+### VARS ###
 
-_coords_imgs = [(15,15),(365,15),(715,15),
-            (15,365),(365,365),(715,365),
-            (15,715),(365,715),(715,715)]
+#Joueurs
+j1 = "X"
+j2 = "O"
 
-_coords_test = [[0,0,357,375,0],[357,0,707,357,1],[707,0,1080,375,2],
-                [0,357,357,707,3],[357,357,707,707,4],[707,357,1080,707,5],
-                [0,707,375,1080,6],[357,707,707,1080,7],[707,707,1080,1080,8]]
+#Tableau de signes
+tableau = ["","","",
+            "","","",
+            "","",""]
 
-_j1 = "X"
-_j2 = "O"
+verif_cases = ((0,1,2),(3,4,5),(6,7,8),(0,3,6),(1,4,7),(2,5,8),(0,4,8),(3,4,6))
 
-_actual_player = _j1
+signe_actuel = j1
 
-# Pygame
-window = pg.display.set_mode((1080, 1080),FULLSCREEN)
+fin_jeu = False
+choix_fait = False
+tours = 0
+
+coords_imgs = [(15,15),(365,15),(715,15),
+               (15,365),(365,365),(715,365),
+               (15,715),(365,715),(715,715)]
+
+coords_test = [[(0,0),(357,375),0],[(357,0),(707,357),1],[(707,0),(1080,375),2],
+               [(0,357),(357,707),3],[(357,357),(707,707),4],[(707,357),(1080,707),5],
+               [(0,707),(375,1080),6],[(357,707),(707,1080),7],[(707,707),(1080,1080),8]]
+
+
+
+### PYGAME ###
+window = pg.display.set_mode((1080,1080), FULLSCREEN)
+
+# Mouse Init
+x, y, B1 = 0, 0, 0
+
+position = False
+
+### Images ###
+# In Game
 ImgPlaceVoid = pg.image.load(".\Images\Void.png")
 ImgPlaceX = pg.image.load(".\Images\Cross.png").convert_alpha()
 ImgPlaceO = pg.image.load(".\Images\Circle.png").convert_alpha()
 
-# Mouse
-_x, _y, _B1, _B2, _B3 = 0, 0, 0, 0, 0
+# Menu
+ImgVersus = pg.image.load(".\Images\Versus.png")
+ImgComputer = pg.image.load(".\Images\Computer.png")
+coords_menu = [[(15,15),0,0,1080,540],[(15,547),0,540,1080,1080]]
 
 
-### Defs ###
-def DrawTable():
-    # Last version w/ Pygame #
-    """
-    print(_table[0], "|", _table[1], "|", _table[2])
-    print("---------")
-    print(_table[3], "|", _table[4], "|", _table[5])
-    print("---------")
-    print(_table[6], "|", _table[7], "|", _table[8])
-    """
-    # Actual Version #
-    for case in range(9):
-        if _table[case] == " ":
-            window.blit(ImgPlaceVoid, _coords_imgs[case])
-        elif _table[case] == "X":
-            window.blit(ImgPlaceX, _coords_imgs[case])
-        elif _table[case] == "O":
-            window.blit(ImgPlaceO, _coords_imgs[case])
+
+### DEFS ###
+def PrintTableau():
+    print(tableau[0], tableau[1], tableau[2])
+    print(tableau[3], tableau[4], tableau[5])
+    print(tableau[6], tableau[7], tableau[8])
+
+def DrawTableau():
+    placement = 0
+    for case in coords_imgs:
+        if tableau[placement] == "":
+            img_case = ImgPlaceVoid
+        elif tableau[placement] == "X":
+            img_case = ImgPlaceX
+        else:
+            img_case = ImgPlaceO
+
+        window.blit(img_case,case)
+        placement += 1
 
     pg.display.flip()
 
-def PosSymbolTable(px_player = "1"):
-    global _continue
-    played = False
+def DrawMenu():
+    pass
 
-    while not played:
-        x = Mouse()[0]
-        y = Mouse()[1]
+def PosSymboleTableau(joueur = j1):
+    #Input de l'utilisateur (LV1)
+    """
+    pos = int(input("Quel position ?"))
+    if tableau[pos-1] == "":
+        tableau[pos-1] = joueur
 
-        if Mouse()[2] == 1:
-            for place in _coords_test:
-                _x1, _x2, _y1, _y2, place_table = place[0], place[1], place[2], place[3], place[4]
+    else:
+        print("mauvaise position")
+        PosSymboleTableau(joueur)
+    """
 
-                # In the screen
-                if x >= 0 and x <= 1080:
-                    if y >= 0 and y <= 1080:
+    #Input Souris
+    x, y, B1, R1 = Mouse()
+    for case in coords_test:
+        if x >= case[0][0] and x <= case[1][0]:
+            if y >= case[0][1] and y <= case[1][1]:
+                tableau[case[2]] = joueur
+                return True
+    return False
 
-                        # In each case, x and y
-                        if x >= _x1 and x <= _x2:
-                            if y >= _y1 and y <= _y2:
-                                # In the Table
-                                if _table[place_table] == " ":
-                                    pos = place_table
+# NE CHANGE PAS ENTRE LES VERSIONS
+def VerificationTableau():
+    for cas in verif_cases:
+        if tableau[cas[0]] == signe_actuel:
+            if tableau[cas[1]] == signe_actuel:
+                if tableau[cas[2]] == signe_actuel:
+                    print("Joueur ", signe_actuel, " a gagne !")
+                    return True
 
-                                    if px_player == "1":
-                                        _table[pos] = _j1
-                                        print(pos)
-                                        print(_x1, _x2, _y1, _y2)
-                                        played = True
-                                    elif px_player == "2":
-                                        _table[pos] = _j2
-                                        print(pos)
-                                        print(_x1, _x2, _y1, _y2)
-                                        played = True
-                                    else:
-                                        played = False
+    return False
+
+#NE CHANGE PAS ENTRE LES VERSIONS
+def Mouse():
+    # Position
+    x, y = pg.mouse.get_pos()
+
+    # Clicks
+    R = pg.mouse.get_rel()
+    R1 = R[0]
+
+    B = pg.mouse.get_pressed()
+    B1 = B[0]
+
+
+    return x, y, B1, R1
+
+
+
+### ORDI ###
+def ordinateur():
+    pass
+
+
+
+### GAME ###
+a = 0
+
+while not fin_jeu:
+    #Affichage Graphique
+    #PrintTableau()
+    DrawTableau()
+
+    #Choix du joueur
+    while not position:
+        x, y, B1, R1 = Mouse()
+
+        if B1 == 1:
+            if signe_actuel == j1 and a == 0:
+                position = PosSymboleTableau(j1)
+                # Verification de fin de jeu
+                fin_jeu = VerificationTableau()
+                signe_actuel = j2
+                tours += 1
+                if position:
+                    a += 1
+            elif signe_actuel == j2 and a == 0:
+                position = PosSymboleTableau(j2)
+                # Verification de fin de jeu
+                fin_jeu = VerificationTableau()
+                signe_actuel = j1
+                tours += 1
+                if position:
+                    a += 1
+
+        if R1 == 1:
+            a = 0
 
         # Events
         for event in pg.event.get():
             if event.type == QUIT:
-                played = True
-                _continue = False
+                fin_jeu = True
+                position = True
 
             elif event.type == KEYDOWN:
                 # Escape
-                if event.key in [K_ESCAPE]:
-                    played = True
-                    _continue = False
+                if event.key in [K_q]:
+                    fin_jeu = True
+                    position = True
 
-def VerifTable(px_symbol):
-  for case in _verif_cases:
-    if _table[case[0]] == px_symbol:
-      if _table[case[1]] == px_symbol:
-        if _table[case[2]] == px_symbol:
-          print("Le joueur ",px_symbol," a gagné !")
-          _continue = False
-          return _continue
-  _continue = True
-  return _continue
+    position = False
 
-def Mouse():
-    # Position
-    _x, _y = pg.mouse.get_pos()
+    print(a)
 
-    # Clicks
-    _B1, _B2, _B3 = pg.mouse.get_pressed()
-
-    return _x, _y, _B1, _B2, _B3
-
-DrawTable()
-### Game ###
-while _continue:
-
-    # Change of player
-    if _actual_player == _j1:
-        PosSymbolTable("1")
-        DrawTable()
-        _continue = VerifTable(_j1)
-        _actual_player = _j2
-    else:
-        PosSymbolTable("2")
-        DrawTable()
-        _continue = VerifTable(_j2)
-        _actual_player = _j1
-
-    # Verif Table Complete
-    count = 0
-    for i in range(0, 9):
-        if _table[i] != " ":
-            count += 1
-    if count == 9:
-        _continue = False
+    #Tours
+    if tours == 9:
+        print("Egalite")
+        fin_jeu = True
 
     # Events
     for event in pg.event.get():
         if event.type == QUIT:
-            _continue = False
+            fin_jeu = True
 
         elif event.type == KEYDOWN:
             #Escape
-            if event.key in [K_ESCAPE]:
-                _continue = False
+            if event.key in [K_q]:
+                fin_jeu = True
 
 # Quit the game
 pg.quit()
