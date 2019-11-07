@@ -200,4 +200,4 @@ while not fin_jeu:
                 fin_jeu = True
 
 # Quit the game
-pg.quit()
+pg.quit() 
