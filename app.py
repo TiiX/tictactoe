@@ -17,9 +17,9 @@ _coords = [[(15,15),(365,15),(715,15)],
             [(15,365),(365,365),(715,365)],
             [(15,715),(365,715),(715,715)]]
 
-_coords_test = [[(,),(,),(,)],
-                [(,),(,),(,)],
-                [(,),(,),(,)]]
+_coords_test = [[0,0,357,375],[357,0,707,357],[707,0,1080,375],
+                [0,357,357,707],[357,357,707,707],[707,357,1080,707],
+                [0,707,375,1080],[357,707,707,1080],[707,707,1080,1080]]
 
 _isPlayer1 = True
 _actual_sign = ""
@@ -72,21 +72,25 @@ def VoidTable():
     for place in _coords:
         for x, y in place:
             window.blit(ImgPlaceVoid,(x,y))
-            print(x,y)
 
     pg.display.flip()
 
-def PlaceSymbol(symbol = "C"):
+def PlaceSymbol(x, y, symbol = "C"):
     # Background
-    #######A FAIRE#######
-
-    # Graphic
     # Coords of the img placement
-    for place in _coords:
-        for x, y in place:
-            if _x <= x:
-                if _y <= y:
-                    img_coords = (x, y)
+    for place in _coords_test:
+
+        _x1, _x2, _y1, _y2 = place[0], place[1], place[2], place[3]
+
+        # In the screen
+        if x >= 0 and x <= 1080:
+            if y >= 0 and y <= 1080:
+
+                # In each case, x and y
+                if x >= _x1 and x <= _x2:
+                    if y >= _y1 and y <= _y2:
+
+                        img_coords = (x, y)
 
     # Choice of the symbol bcs of the parameter
     if symbol == "C":
@@ -120,6 +124,11 @@ while _continue:
 
     # Winner verification
     WinnerTest()
+
+    # Event clic
+    if Mouse()[3] == 1:
+        PlaceSymbol(Mouse()[0],Mouse()[1],_actual_sign)
+
 
     # Events
     for event in pg.event.get():
