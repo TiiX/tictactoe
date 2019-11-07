@@ -1,7 +1,6 @@
 ### Import ###
 import pygame as pg
 from pygame.locals import *
-import random as rd
 
 ### Init ###
 pg.init()
@@ -40,9 +39,6 @@ _x, _y, _B1, _B2, _B3 = 0, 0, 0, 0, 0
 ImgPlaceVoid = pg.image.load(".\Images\Void.png")
 ImgPlaceX = pg.image.load(".\Images\Cross.png").convert_alpha()
 ImgPlaceO = pg.image.load(".\Images\Circle.png").convert_alpha()
-
-### Fonts ###
-# A Faire
 
 ### Definitions###
 # Game
