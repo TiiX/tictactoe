@@ -17,12 +17,13 @@ _coords = [[(15,15),(365,15),(715,15)],
             [(15,365),(365,365),(715,365)],
             [(15,715),(365,715),(715,715)]]
 
-_coords_test = [[0,0,357,375],[357,0,707,357],[707,0,1080,375],
-                [0,357,357,707],[357,357,707,707],[707,357,1080,707],
-                [0,707,375,1080],[357,707,707,1080],[707,707,1080,1080]]
+_coords_test = [[0,0,357,375,0,0],[357,0,707,357,0,1],[707,0,1080,375,0,2],
+                [0,357,357,707,1,0],[357,357,707,707,1,1],[707,357,1080,707,1,2],
+                [0,707,375,1080,2,0],[357,707,707,1080,2,1],[707,707,1080,1080,2,2]]
 
 _isPlayer1 = True
 _actual_sign = ""
+Placed = False
 
 _l = 1080
 _L = 1080
@@ -76,11 +77,13 @@ def VoidTable():
     pg.display.flip()
 
 def PlaceSymbol(x, y, symbol = "C"):
+
     # Background
     # Coords of the img placement
     for place in _coords_test:
 
-        _x1, _x2, _y1, _y2 = place[0], place[1], place[2], place[3]
+        ### X and Y ###
+        _x1, _x2, _y1, _y2, place_table = place[0], place[1], place[2], place[3], (place[4], place[5])
 
         # In the screen
         if x >= 0 and x <= 1080:
@@ -90,16 +93,30 @@ def PlaceSymbol(x, y, symbol = "C"):
                 if x >= _x1 and x <= _x2:
                     if y >= _y1 and y <= _y2:
 
-                        img_coords = (x, y)
+                        # In the Table
+                        if _table[place_table[0]][place_table[1]] == " ":
 
-    # Choice of the symbol bcs of the parameter
-    if symbol == "C":
-        img = ImgPlaceX
-    else:
-        img = ImgPlaceO
+                            print("Fait")
 
-    # Placement of the symbol
-    window.blit(img, img_coords)
+                            # Graphic
+                            img_coords = (_x1, _y1)
+
+                            # Choice of the symbol bcs of the parameter
+                            if symbol == "C":
+                                img = ImgPlaceX
+                            else:
+                                img = ImgPlaceO
+
+                            # Placement of the symbol
+                            window.blit(img, img_coords)
+                            pg.display.flip()
+
+                            placed = True
+                            return placed
+
+                        else:
+                            placed = False
+                            return placed
 
 # Menu
 def PrintMenu():
@@ -126,8 +143,14 @@ while _continue:
     WinnerTest()
 
     # Event clic
-    if Mouse()[3] == 1:
-        PlaceSymbol(Mouse()[0],Mouse()[1],_actual_sign)
+    if Mouse()[2] == 1 and Placed == False:
+        Placed = PlaceSymbol(Mouse()[0],Mouse()[1],_actual_sign)
+        # Symbol Switch
+        if Placed:
+            if _actual_sign == "X":
+                _actual_sign = "O"
+            else:
+                _actual_sign = "X"
 
 
     # Events
