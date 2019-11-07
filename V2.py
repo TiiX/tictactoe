@@ -1,7 +1,9 @@
 
 #Start = 16:49
-
-
+### Import + Init ###
+import pygame as pg
+from pygame.locals import *
+pg.init()
 
 ### Vars ###
 
@@ -20,15 +22,21 @@ else:
 
 _actual_player = _j1
 
+# Pygame
+window = pg.display.set_mode((1080, 1080),FULLSCREEN)
+
 
 
 ### Defs ###
 def DrawTable():
+    #Last version w/ Pygame#
+    """
     print(_table[0], "|", _table[1], "|", _table[2])
     print("---------")
     print(_table[3], "|", _table[4], "|", _table[5])
     print("---------")
     print(_table[6], "|", _table[7], "|", _table[8])
+    """
 
 def PosSymbol(px_player="1"):
     played = False
