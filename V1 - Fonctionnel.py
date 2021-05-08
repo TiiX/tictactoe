@@ -1,4 +1,4 @@
-# Jeu fait par Arthur Nordmann (19h25 -> 20h35)
+# Jeu fait par xTiiX (19h25 -> 20h35)
 
 ### VARS ###
 
