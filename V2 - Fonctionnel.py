@@ -1,4 +1,4 @@
-# Jeu fait par Arthur Nordmann (Tous droits reserves)
+# Jeu fait par xTiiX (Tous droits reserves)
 ### IMPORT ###
 import pygame as pg
 from pygame.locals import *
